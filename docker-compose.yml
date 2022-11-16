@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mariadb:10.9.4 
+    container_name: "mysql"
+    ports:
+      - 3307:3306
+    volumes:
+      - db:/var/lib/mysql
+    restart: always
+    environment:
+        MARIADB_HOST: localhost
+        MARIADB_ROOT_PASSWORD: Pubsdk!@
+    networks:
+      - db-network
+
+  mongodb:
+    image: mongo:6.0.2
+    container_name: "mongodb"
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/var/lib/mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Pubsdk!@
+    networks:
+      - db-network
+
+  redis:
+    image: redis:7.0.5
+    container_name: "redis"
+    ports:
+      - 6379:6379
+    volumes:
+      - db:/etc/redis.conf
+    restart: always
+    networks:
+      - db-network
+
+  nginx:
+    depends_on:
+      - mysql
+      - mongodb
+      - redis 
+    image: nginx:1.22.0
+    container_name: "nginx"
+    ports:
+      - 8080:80
+    volumes:
+      - db:/etc/nginx/conf.d
+    restart: always
+    networks:
+      - db-network
+          
+volumes:
+  db: 
+    external: true
+
+networks:
+  db-network:
+    external: true
