@@ -42,7 +42,7 @@ services:
 
   nginx:
     depends_on:
-      - mysql
+      - mariadb
       - mongodb
       - redis 
     image: nginx:1.22.0
