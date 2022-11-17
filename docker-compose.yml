@@ -7,7 +7,7 @@ services:
     ports:
       - 3307:3306
     volumes:
-      - db:/
+      - mariadb:/
     restart: always
     environment:
         MARIADB_HOST: localhost
@@ -21,7 +21,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - db:/
+      - mongodb:/
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -35,7 +35,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - db:/
+      - redis:/
     restart: always
     networks:
       - db-network
@@ -50,7 +50,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - db:/
+      - nginx:/
     restart: always
     networks:
       - db-network
