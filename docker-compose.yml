@@ -1,13 +1,13 @@
 version: "3.9"
 
 services:
-  mysql:
+  mariadb:
     image: mariadb:10.9.4 
-    container_name: "mysql"
+    container_name: "mariadb"
     ports:
       - 3307:3306
     volumes:
-      - db:/var/lib/mysql
+      - db:/
     restart: always
     environment:
         MARIADB_HOST: localhost
@@ -21,7 +21,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - db:/var/lib/mongo
+      - db:/
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -35,7 +35,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - db:/etc/redis.conf
+      - db:/
     restart: always
     networks:
       - db-network
@@ -50,13 +50,19 @@ services:
     ports:
       - 8080:80
     volumes:
-      - db:/etc/nginx
+      - db:/
     restart: always
     networks:
       - db-network
           
 volumes:
-  db: 
+  mariadb: 
+    external: true
+  mongodb: 
+    external: true
+  redis: 
+    external: true
+  nginx: 
     external: true
 
 networks:
