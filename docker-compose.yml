@@ -50,7 +50,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - db:/etc/nginx/conf.d
+      - db:/etc/nginx
     restart: always
     networks:
       - db-network
